@@ -74,6 +74,48 @@ Looking for the old Hipster Shop frontend interface? Use the [manifests](https:/
 
 If you would like to contribute features or fixes to this app, see the [Development Guide](/docs/development-guide.md) on how to build this demo locally.
 
+## Installation
+- We offer the following installation methods:
+
+  1. **Running locally** (~20 minutes) You will build and deploy microservices images to a single-node Kubernetes cluster running on your development machine. There are two options to run a Kubernetes cluster locally for this demo:
+
+    - Minikube. Recommended for the Linux hosts (also supports Mac/Windows).
+    - Docker for Desktop. Recommended for Mac/Windows.
+  2. **Running on Google Kubernetes Engine (GKE)**” (~30 minutes) You will build, upload and deploy the container images to a Kubernetes cluster on Google Cloud.
+
+  3. **Using pre-built container images:** (~10 minutes, you will still need to follow one of the steps above up until skaffold run command). With this option, you will use pre-built container images that are available publicly, instead of building them yourself, which takes a long time).
+
+### Option 1: Running locally
+💡 Recommended if you're planning to develop the application or giving it a try on your local cluster.
+
+1. Install tools to run a Kubernetes cluster locally:
+
+- kubectl (can be installed via gcloud components install kubectl)
+- Local Kubernetes cluster deployment tool:
+    -- Minikube (recommended for Linux).
+    -- Docker for Desktop (recommended for Mac/Windows): It provides Kubernetes support as noted here.
+- skaffold (ensure version ≥v0.20)
+2. Launch the local Kubernetes cluster with one of the following tools:
+
+- Launch Minikube (tested with Ubuntu Linux). Please, ensure that the local Kubernetes cluster has at least:
+
+    -- 4 CPU's
+    -- 4.0 GiB memory
+    To run a Kubernetes cluster with Minikube using the described configuration, please run:
+```
+minikube start --cpus=4 --memory 4096
+```
+- Launch “Docker for Desktop” (tested with Mac/Windows). Go to Preferences:
+    -- choose “Enable Kubernetes”,
+    -- set CPUs to at least 3, and Memory to at least 6.0 GiB
+    -- on the "Disk" tab, set at least 32 GB disk space
+3. Run kubectl get nodes to verify you're connected to “Kubernetes on Docker”.
+
+4. Run skaffold run (first time will be slow, it can take ~20 minutes). This will build and deploy the application. If you need to rebuild the images automatically as you refactor the code, run skaffold dev command.
+
+5. Run kubectl get pods to verify the Pods are ready and running. The application frontend should be available at http://localhost:80 on your machine.
+
+
 ## Quickstart (GKE)
 
 ### **Gcloud** is the command-line tool for Google Cloud Platform. It comes pre-installed on Cloud Shell and supports tab-completion
