@@ -16,10 +16,12 @@ Kubernetes/GKE, Istio, Stackdriver, gRPC and OpenCensus**. This application
 works on any Kubernetes cluster, as well as Google
 Kubernetes Engine. It’s **easy to deploy with little to no configuration**.
 
-> 👓**Note: We will deploy our application with ```skaffold```** 
-> 
+> 👓**Note: We will deploy our application in 3 different ways ```kubernetes-manifests```, ```skaffold```** 
+
 ```./kubernetes-manifests```
-> ⚠️ Kubernetes manifests provided in this directory are not directly deployable to a cluster. They are meant to be used with skaffold command to insert the correct image: tags. 
+
+ ```skaffold run  ```
+
 
 Looking for the old Hipster Shop frontend interface? Use the [manifests](https://github.com/GoogleCloudPlatform/microservices-demo/tree/v0.1.5/kubernetes-manifests) in release [v0.1.5](https://github.com/GoogleCloudPlatform/microservices-demo/releases/v0.1.5).
 
@@ -221,6 +223,8 @@ gcloud container clusters delete onlineboutique \
     --project=${PROJECT_ID} --zone=${ZONE}
 ```
 ## Option 2: Deployment on Google Kubernetes Engine with with Skaffold
+
+> ⚠️ Kubernetes manifests provided in this directory are not directly deployable to a cluster. They are meant to be used with skaffold command to insert the correct image: tags. 
 
 - You can list the active account name with this command:
 ```
