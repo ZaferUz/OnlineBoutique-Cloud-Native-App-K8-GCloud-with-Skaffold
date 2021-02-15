@@ -116,11 +116,13 @@ minikube start --cpus=4 --memory 4096
 5. Run kubectl get pods to verify the Pods are ready and running. The application frontend should be available at http://localhost:80 on your machine.
 
 
-## Option 2: Running On Gcloud 
+## Running On Cloud
 
 ###  **Gcloud** is the command-line tool for Google Cloud Platform. It comes pre-installed on Cloud Shell and supports tab-completion
 
-💡 **We will use 3 different deployment ways to run the app**
+# 💡 **We will use 3 different deployment ways to run the app**
+
+## Option 1: Deployment on Google Kubernetes Engine with Kubemanifest  
 
 - You can list the active account name with this command:
 ```
@@ -175,7 +177,105 @@ gcloud container clusters get-credentials shop-cluster --zone us-west1-b
 kubectl get nodes
 ```
 
-## 1. Deploy application with Skaffold
+- Deploy the sample app to the cluster.
+```
+kubectl apply -f ./release/kubernetes-manifests.yaml
+```
+- Wait for the Pods to be ready.
+
+```
+kubectl get pods
+```
+
+- Sample output: 
+
+```
+NAME                                     READY   STATUS    RESTARTS   AGE
+adservice-76bdd69666-ckc5j               1/1     Running   0          2m58s
+cartservice-66d497c6b7-dp5jr             1/1     Running   0          2m59s
+checkoutservice-666c784bd6-4jd22         1/1     Running   0          3m1s
+currencyservice-5d5d496984-4jmd7         1/1     Running   0          2m59s
+emailservice-667457d9d6-75jcq            1/1     Running   0          3m2s
+frontend-6b8d69b9fb-wjqdg                1/1     Running   0          3m1s
+loadgenerator-665b5cd444-gwqdq           1/1     Running   0          3m
+paymentservice-68596d6dd6-bf6bv          1/1     Running   0          3m
+productcatalogservice-557d474574-888kr   1/1     Running   0          3m
+recommendationservice-69c56b74d4-7z8r5   1/1     Running   0          3m1s
+redis-cart-5f59546cdd-5jnqf              1/1     Running   0          2m58s
+shippingservice-6ccc89f8fd-v686r         1/1     Running   0          2m58s
+
+```
+- Access the web frontend in a browser using the frontend's EXTERNAL_IP.
+```
+kubectl get service frontend-external | awk '{print $4}'
+```
+- Example output - do not copy
+```
+EXTERNAL-IP
+<your-ip>
+Note- you may see <pending> while GCP provisions the load balancer. If this happens, wait a few minutes and re-run the command.
+```
+- Clean up:
+```
+gcloud container clusters delete onlineboutique \
+    --project=${PROJECT_ID} --zone=${ZONE}
+```
+## Option 2: Deployment on Google Kubernetes Engine with with Skaffold
+
+- You can list the active account name with this command:
+```
+gcloud auth list
+```
+- You can list and choose the projects:
+```
+gcloud config list project
+```
+- or you can create a Google Cloud Platform project.
+- Set the `PROJECT_ID` environment variable and ensure the Google Kubernetes Engine and Cloud Operations APIs are enabled.
+
+```
+# set the project Id 1:
+PROJECT_ID="<your-project-id>"
+# or set the project Id 2:
+# export PROJECT_ID=$(gcloud info --format='value(config.project)')
+
+gcloud services enable container.googleapis.com --project ${PROJECT_ID}
+gcloud services enable monitoring.googleapis.com \
+    cloudtrace.googleapis.com \
+    clouddebugger.googleapis.com \
+    cloudprofiler.googleapis.com \
+    --project ${PROJECT_ID}
+```
+
+- Set the zone in gcloud
+```
+gcloud config set compute/zone us-west1-b
+# or choose one of them, you want.
+```
+
+- Create a GKE cluster.
+```
+ZONE=us-west1-b
+gcloud container clusters create onlineboutique \
+    --project=${PROJECT_ID} --zone=${ZONE} \
+    --machine-type=e2-standard-2 --num-nodes=4
+```
+
+**Note:** Connect to Google Kubernetes Engine cluster and validate that it's been created correctly.
+```
+gcloud container clusters list
+```
+
+- Once your cluster has RUNNING status, get the cluster credentials:
+```
+gcloud container clusters get-credentials shop-cluster --zone us-west1-b
+```
+- Verify that the nodes have been created:
+```
+kubectl get nodes
+```
+
+
 
 - Run the following to clone the repo:
 
