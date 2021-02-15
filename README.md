@@ -116,9 +116,11 @@ minikube start --cpus=4 --memory 4096
 5. Run kubectl get pods to verify the Pods are ready and running. The application frontend should be available at http://localhost:80 on your machine.
 
 
-## Quickstart (GKE)
+## Option 2: Running On Gcloud 
 
-### **Gcloud** is the command-line tool for Google Cloud Platform. It comes pre-installed on Cloud Shell and supports tab-completion
+###  **Gcloud** is the command-line tool for Google Cloud Platform. It comes pre-installed on Cloud Shell and supports tab-completion
+
+💡 **We will use 3 different deployment ways to run the app**
 
 - You can list the active account name with this command:
 ```
