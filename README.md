@@ -16,7 +16,7 @@ Kubernetes/GKE, Istio, Stackdriver, gRPC and OpenCensus**. This application
 works on any Kubernetes cluster, as well as Google
 Kubernetes Engine. It’s **easy to deploy with little to no configuration**.
 
-> 👓**Note: We will deploy our application in 3 different ways ```kubernetes-manifests```, ```skaffold```** 
+> 👓**Note: We will deploy our application in 2 different ways ```kubernetes-manifests```, ```skaffold```** 
 
 ```./kubernetes-manifests```
 
@@ -122,7 +122,7 @@ minikube start --cpus=4 --memory 4096
 
 ###  **Gcloud** is the command-line tool for Google Cloud Platform. It comes pre-installed on Cloud Shell and supports tab-completion
 
-# 💡 **We will use 3 different deployment ways to run the app**
+# 💡 **We will use 2 different deployment ways to run the app**
 
 ## Option 1: Deployment on Google Kubernetes Engine with Kubemanifest  
 
@@ -363,6 +363,13 @@ rmdir tmp/error tmp/master tmp
 ```
 ./setup_csr.sh
 ```
+
+- Clean up:
+```
+skaffold delete
+```
+
+
 [![onlineboutique.](./final.png)
 
 
